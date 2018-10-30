@@ -16,6 +16,23 @@ console.log("mousedown");
 
 }
 
+
+
+moveIt(canvas,o) {
+  setTimeout(function(){
+    console.log("changing")
+    console.log(o.angle)
+    o.set({angle:o.angle+15,fill:'green'})
+    canvas.renderAll();
+  }, 3000);
+
+  setTimeout(function(){
+    console.log("changing")
+    o.set({angle:o.angle+30,fill:'blue'})
+  canvas.renderAll();
+  }, 6000);
+}
+
     componentDidMount() {
 
 /*
@@ -27,13 +44,14 @@ const canvas = new fabric.Canvas('c');
 canvas.setHeight(window.innerHeight);
     canvas.setWidth(window.innerWidth);
     canvas.renderAll();
-var rect = new fabric.Rect({ angle: 45,  left: 100, top: 100,});
+
+var rect = new fabric.Rect({ angle: 45,  left: 200, top: 200,});
 rect.set({ width: 200, height: 200, fill: '#f55', opacity: 0.7 });
-var rect2 = new fabric.Rect({ angle: -45 });
+var rect2 = new fabric.Rect({ angle: -45, left: 400, top:400 });
 rect2.set({ width: 200, height: 200, fill: '#f55', opacity: 0.7 });
 
 var rect3 = new fabric.Rect();
-rect3.set({ width: 200, height: 200, fill: '#f55', opacity: 0.7 });
+rect3.set({ width: 200, height: 200, left:500, top:500, fill: '#f55', opacity: 0.7 });
 canvas.add(rect);
 canvas.add(rect2);
 canvas.add(rect3);
@@ -62,17 +80,30 @@ canvas.on('object:moving', (eventName) => {
           canvas._activeObject.set({fill:'pink'})
           });
 
-          canvas.on('mouse:up', (eventName) => {
+          canvas.on('mouse:down', (eventName) => {
             console.log(eventName)
 
-                    console.log("canvas mouse up ")
+                    console.log("canvas mouse down ")
                 //    console.log(canvas._objects)
                 //    console.log(canvas._activeObject)
                   console.log(canvas._activeObject)
-                  if (canvas._activeObject !== undefined) {
+                  if ((canvas._activeObject !== undefined) && (canvas._activeObject !== null)) {
                     canvas._activeObject.set({fill:'orange'})
                   }
                 });
+
+                canvas.on('mouse:up', (eventName) => {
+                  console.log(eventName)
+
+                          console.log("canvas mouse up ")
+                      //    console.log(canvas._objects)
+                      //    console.log(canvas._activeObject)
+                        console.log(canvas._activeObject)
+                        if ((canvas._activeObject !== undefined) && (canvas._activeObject !== null)) {
+                          canvas._activeObject.set({fill:'blue'})
+                          this.moveIt(canvas,canvas._activeObject)
+                        }
+                      });
 /*
 canvas.on('mouse:down', function (options) {
     if (options.target) {
@@ -80,7 +111,10 @@ canvas.on('mouse:down', function (options) {
     }
 
 */
+console.log("context next")
 console.log(this.context);
+//this.setState({context)
+
 
 }
 
