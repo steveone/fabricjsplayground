@@ -43,6 +43,8 @@ class ShowCanvas extends Component {
       })
       canvas.renderAll();
     }, 6000);
+    this.setState({canvas: canvas.toObject()})
+console.log(canvas.toObject)
   }
 
 createNamedRect(angle,left,top){
@@ -149,17 +151,18 @@ return rect;
          });
     */
     canvas.on('object:moving', (eventName) => {
-      console.log(eventName)
-      console.log("canvas moving " + canvas._activeObject.name)
+      //console.log(eventName)
+      //console.log("canvas moving " + canvas._activeObject.name)
       canvas._activeObject.set({
         fill: 'pink'
       })
     });
 
-    canvas.on('mouse:down', (eventName) => {
+//used to be mouse:down
+    canvas.on('selection:created', (eventName) => {
       console.log(eventName)
 
-      console.log("canvas mouse down ")
+      console.log("canvas selection_created ")
       //    console.log(canvas._objects)
       //    console.log(canvas._activeObject)
       if ((canvas._activeObject !== undefined) && (canvas._activeObject !== null)) {
@@ -223,6 +226,11 @@ return rect;
     console.log("clicked")
   }
 
+outputJson() {
+  console.log('outputting json')
+  console.log(this.state.canvas);
+}
+
   render() {
     return ( <
       div style = {
@@ -232,13 +240,17 @@ return rect;
           color: 'red'
         }
       } >
+<button id='btn' onClick={() => this.outputJson()}>
+Click
+</button>
       <
       canvas id = "c"
       onClick = {
         ((e) => this.handleClick)
       }
       ref = {
-        (c) => this.context = c.getContext('2d')
+{/*}        (c) => this.context = c.getContext('2d')
+*/}
       }
       style = {
         {
